@@ -1,8 +1,14 @@
 import React from 'react';
 import {Segment,Grid,Header,Image} from 'semantic-ui-react';
+import FoodmenuTable from '../Container/menuTable';
 
 
 export default class Foodmenu extends React.Component {
+
+    componentDidMount=()=>{
+
+    }
+
 
     render(){
         return (
@@ -21,19 +27,10 @@ export default class Foodmenu extends React.Component {
                         <Grid.Column  computer={8} mobile={12}>
                         <Image src='/logo.png' size="large"  centered={true} />
 
-                            <Segment.Group>
-                            <Header textAlign="center" as='h2' color="orange">
-                                            Today's Men
-                                            <Header.Subheader  className="ui aligned right " >
-                                            <i className="menu-update-time">Last Updated on &nbsp;&nbsp;</i></Header.Subheader>                                     
-                            </Header>
-                                <Segment textAlign="center" vertical>Te eum doming eirmod, nominati pertinacia argumentum ad his.</Segment>
-                                <Segment textAlign="center" vertical>Pellentesque habitant morbi tristique senectus.</Segment>
-                                <Segment textAlign="center" vertical>Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id.</Segment>
-                            </Segment.Group>
+                            <FoodmenuTable todaymenu={['a','b']} edit={false}/>
                         </Grid.Column>
                         <Grid.Column width={4} only="computer">
-                        <br/><br/>
+                        <br/><br/><br/>
                         <Image src="/thali.png"  size="medium" />
 
                         </Grid.Column>

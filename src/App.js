@@ -9,7 +9,7 @@ import logo from './logo.svg';
 import './App.css';
 import Foodmenu from './Component/Menu'
 import 'semantic-ui-css/semantic.min.css';
-import Addmenu from './Component/addMenu'
+import Addmenu from './Container/addMenu'
 class App extends Component {
   render() {
     return (

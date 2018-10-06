@@ -1,11 +1,23 @@
 import React from 'react';
 import {Segment,Grid,Header,Image} from 'semantic-ui-react';
 import FoodmenuTable from '../Container/menuTable';
+var githubDB = require('../Githubdb/index').githubdb
 
+const hostingIO=new githubDB('hostingIO','newentry4.json');
 
 export default class Foodmenu extends React.Component {
 
+    constructor(props){
+        super(props)
+        this.state={
+            todaymenu:[]
+        }
+    }
+
     componentDidMount=()=>{
+
+        hostingIO.getFileData().then();
+
 
     }
 

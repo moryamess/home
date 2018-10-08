@@ -1,7 +1,14 @@
 import React from 'react';
 
 import FoodmenuTable from './menuTable';
-import { Button, Divider, Form, Input, Radio, Select, TextArea, Container } from 'semantic-ui-react'
+import { Button, Divider, Form, Input, Radio, Select, TextArea, Container } from 'semantic-ui-react';
+import githubDB from '../Githubdb'
+import moment from 'moment';
+
+var fileName=moment().format("YYYYMMDD").concat('.json')
+const hostingIO=new githubDB('hostingIO',fileName);
+
+
 export default class Addmenu extends React.Component {
   constructor(props){
     super(props)
@@ -39,9 +46,7 @@ export default class Addmenu extends React.Component {
         currentFoodItem:"",
         saveloading:false,
         foodItemInput:Object.assign({},{error:false},this.state.foodItemInput)
-
-      })
-
+      });
   }
 
   removeFoodItem=(event,data)=>{
@@ -61,6 +66,29 @@ export default class Addmenu extends React.Component {
     this.setState({saveloading:true,
       disableDelete:true,
       foodItemInput:Object.assign({},{disabled:true},this.state.foodItemInput)
+    },
+    ()=>{
+      hostingIO.updateFileContent(this.state.todaymenu,"Aaj cha special").
+      then(()=>{
+          this.setState({
+            saveloading:false
+          })
+      })
+    })
+
+
+
+ 
+  }
+
+  componentDidMount=()=>{
+    hostingIO.getFileData().then((res)=>{
+        if(res.status && res.status===-1){
+          hostingIO.createFile();
+        }
+        else{
+          this.setState({todaymenu:res[moment().format("YYYYMMDD")]})
+        }
     })
   }
 render(){

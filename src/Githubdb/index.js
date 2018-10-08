@@ -2,13 +2,14 @@
 
 import {Buffer} from 'buffer'
 import moment from 'moment';
-import octokit from '@octokit/rest'
-debugger
-var authenticate=octokit.authenticate;
-var g=authenticate({
-    type: 'token',
-    token: 'b76e2330a9469e9e21a425e83f77940c8caf2a04'
-  });
+import Octokit from '@octokit/rest'
+
+const octokit = new Octokit()
+octokit.authenticate({
+    type: 'basic',
+    username: 'rohitbels',
+    password: 'githubrohit93'
+  })
 
 function githubDB(repo,path){
     this.owner='rohitbels';
@@ -25,18 +26,21 @@ githubDB.prototype.encode= function (file) {
 };
 
 githubDB.prototype.getFileData=async function(){
-    console.log(this)
-    const result = await octokit.repos.getContent({owner:this.owner, repo:this.repo, path:this.path});
+
     try{
+    const result = await octokit.repos.getContent({owner:this.owner, repo:this.repo, path:this.path});
+    
         return JSON.parse(this.decode(result.data.content));
     }
     catch(e){
-        return {};
+        return {
+            status:-1
+        };
     }
 }
 
 githubDB.prototype.getFileDetails=async function(){
-    console.log(this.owner,this.path)
+
     const result = await octokit.repos.getContent({owner:this.owner, repo:this.repo, path:this.path});
 
             return result.data;
@@ -50,17 +54,18 @@ githubDB.prototype.updateFileContent=async function(rawContent,message){
         var content=JSON.parse(this.decode(res.content));
         var currentDate=moment().format("YYYYMMDD");   
         if(content instanceof Array){
+            content.push(rawContent)
+
+        }
+        else if(content instanceof Object){
             if(content[currentDate])    
             {
                 content[currentDate]=rawContent;            
             }
             else
             {
-                content[currentDate]=Object.assign({},rawContent,content.currentDate)
+                content[currentDate]=rawContent;
             }
-        }
-        else if(content instanceof Object){
-            content=Object.assign({},rawContent,content)
         }
 
 
@@ -79,7 +84,7 @@ githubDB.prototype.updateFileContent=async function(rawContent,message){
 }
 
 
-githubDB.prototype.createFile=async function(content,message){
+githubDB.prototype.createFile=async function(content=[],message="menu"){
 
     var final={}
     var currentDate=moment().format("YYYYMMDD");

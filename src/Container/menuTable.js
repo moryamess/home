@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header,Icon, Table, Button, TableHeaderCell } from 'semantic-ui-react'
+import { Header,Icon, Table, Button, Dimmer,Loader } from 'semantic-ui-react'
 
 const headers={
     label:"Delete",
@@ -7,6 +7,12 @@ const headers={
     edit:true
 };
 export default class FoodmenuTable extends React.Component {
+
+    constructor(props){
+        super(props);
+
+        
+    }
 
    generateHeader=()=>{
 
@@ -28,6 +34,16 @@ export default class FoodmenuTable extends React.Component {
 
             var self=this;
         
+            if(!this.props.edit && this.props.todaymenu.length===0){
+                return         <Table.Row >
+            <Table.Cell>
+            <Dimmer active inverted>
+                <Loader size='small'>Loading</Loader>
+            </Dimmer>
+            </Table.Cell>
+          </Table.Row>
+            }
+ 
             if(self.props.todaymenu.length===0)
             {
                 return <Table.Row key="blank" warning={true} > 
@@ -47,7 +63,8 @@ export default class FoodmenuTable extends React.Component {
                     }
 
                         return <Table.Row key={item}> 
-                        <Table.Cell textAlign="center" key={item} >{item}</Table.Cell>
+                        <Table.Cell textAlign="center" key={item}   >
+                        <Header as="h3">{item}</Header></Table.Cell>
 
                         </Table.Row>
         }); 
@@ -61,7 +78,8 @@ export default class FoodmenuTable extends React.Component {
 
     render(){
         return (
-<Table key="orange" unstackable={true} color="orange" celled basic={this.props.edit?"very":false}>
+<Table key="orange" className="menuFont" unstackable={true} color="orange" celled basic={this.props.edit?"very":false}>
+
     <Table.Header >
       <Table.Row >
         <Table.HeaderCell  textAlign="center">
@@ -79,6 +97,7 @@ export default class FoodmenuTable extends React.Component {
     </Table.Header>
 
     <Table.Body>
+
             {this.generateMenu()}
 
     </Table.Body>

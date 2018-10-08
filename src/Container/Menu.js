@@ -1,9 +1,10 @@
 import React from 'react';
 import {Segment,Grid,Header,Image} from 'semantic-ui-react';
-import FoodmenuTable from '../Container/menuTable';
-var githubDB = require('../Githubdb/index').githubdb
-
-const hostingIO=new githubDB('hostingIO','newentry4.json');
+import FoodmenuTable from './menuTable';
+import githubDB from '../Githubdb'
+import moment from 'moment'
+var fileName=moment().format("YYYYMMDD").concat('.json')
+const hostingIO=new githubDB('hostingIO',fileName);
 
 export default class Foodmenu extends React.Component {
 
@@ -16,7 +17,11 @@ export default class Foodmenu extends React.Component {
 
     componentDidMount=()=>{
 
-        hostingIO.getFileData().then();
+        hostingIO.getFileData().then((res)=>{
+
+
+            this.setState({todaymenu:res[moment().format("YYYYMMDD")]})
+        });
 
 
     }
@@ -37,9 +42,12 @@ export default class Foodmenu extends React.Component {
 
                         </Grid.Column>
                         <Grid.Column  computer={8} mobile={12}>
-                        <Image src='/logo.png' size="large"  centered={true} />
-
-                            <FoodmenuTable todaymenu={['a','b']} edit={false}/>
+                                <Image src='/logo.png' size="large"  centered={true} />
+                        <Grid>
+                            <Grid.Row>
+                            <FoodmenuTable todaymenu={this.state.todaymenu} edit={false}/>
+                            </Grid.Row>
+                        </Grid>
                         </Grid.Column>
                         <Grid.Column width={4} only="computer">
                         <br/><br/><br/>

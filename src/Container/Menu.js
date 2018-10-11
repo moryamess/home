@@ -19,8 +19,15 @@ export default class Foodmenu extends React.Component {
 
         hostingIO.getFileData().then((res)=>{
 
-
-            this.setState({todaymenu:res[moment().format("YYYYMMDD")]})
+                if(res.status && res.status===-1){
+                    this.setState({todaymenu:['Menu not set for today.']});
+                }
+                else{
+                    if(res[moment().format("YYYYMMDD")].length===0)
+                    this.setState({todaymenu:['Menu not set for today.']});
+                    else
+                    this.setState({todaymenu:res[moment().format("YYYYMMDD")]});
+                }
         });
 
 

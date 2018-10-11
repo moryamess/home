@@ -86,7 +86,7 @@ export default class FoodmenuTable extends React.Component {
         <Header as='h2' color="orange" >
             <Header.Content >
                 Today's Menu
-                <Header.Subheader color="grey">Updated on</Header.Subheader>
+                
             </Header.Content>   
         </Header>       
         </Table.HeaderCell>
